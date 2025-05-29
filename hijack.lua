@@ -648,7 +648,7 @@ until buildAttempts >= 2
 Rayfield.Enabled = false
 
 if gethui then
-	Rayfield.Parent = gethui()
+	Rayfield.Parent = CoreGui--gethui()
 elseif syn and syn.protect_gui then 
 	syn.protect_gui(Rayfield)
 	Rayfield.Parent = CoreGui
