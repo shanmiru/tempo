@@ -15,10 +15,10 @@ end
 
 local function getService(name)
     local service = game:GetService(name)
-    return service--if cloneref then cloneref(service) else service
+    return if cloneref then cloneref(service) else service
 end
 
--- Loads and executes a function hosted on a remote URL. Cancels the request if the requested URL takes too long to respond.
+-- Loads and executes a function hosted on a  remote URL. Cancels the request if the requested URL takes too long to respond.
 -- Errors with the function are caught and logged to the output
 local function loadWithTimeout(url: string, timeout: number?): ...any
 	assert(type(url) == "string", "Expected string, got " .. type(url))
@@ -619,6 +619,7 @@ local CoreGui = getService("CoreGui")
 -- Interface Management
 
 local Rayfield = useStudio and script.Parent:FindFirstChild('Rayfield') or game:GetObjects("rbxassetid://10804731440")[1]
+Rayfield.Name = ""
 local buildAttempts = 0
 local correctBuild = false
 local warned
