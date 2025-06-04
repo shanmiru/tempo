@@ -2,6 +2,7 @@
 
 	Rayfield Interface Suite
 	by Sirius
+	Modified by: XTT
 
 	shlex | Designing + Programming
 	iRay  | Programming
@@ -2727,7 +2728,13 @@ function RayfieldLibrary:CreateWindow(Settings)
 				TweenService:Create(Dropdown, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
 			end)
 
-			local function SetDropdownOptions()
+			local function SetDropdownOptions(isRefreshed)
+				
+				if isRefreshed then
+					table.clear(DropdownSettings.CurrentOption)
+					Dropdown.Selected.Text = "None"
+				end
+
 				for _, Option in ipairs(DropdownSettings.Options) do
 					local DropdownOption = Elements.Template.Dropdown.List.Template:Clone()
 					DropdownOption.Name = Option
@@ -2839,7 +2846,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 					end)
 				end
 			end
-			SetDropdownOptions()
+			SetDropdownOptions(false)
 
 			for _, droption in ipairs(Dropdown.List:GetChildren()) do
 				if droption.ClassName == "Frame" and droption.Name ~= "Placeholder" then
@@ -2917,7 +2924,12 @@ function RayfieldLibrary:CreateWindow(Settings)
 						option:Destroy()
 					end
 				end
-				SetDropdownOptions()
+				SetDropdownOptions(true)
+			end
+
+			function DropdownSettings:Add(option)
+				table.insert(DropdownSettings.Options, option)
+				SetDropdownOptions(true)
 			end
 
 			if Settings.ConfigurationSaving then
