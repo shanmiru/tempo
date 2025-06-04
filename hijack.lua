@@ -1610,19 +1610,19 @@ function RayfieldLibrary:CreateWindow(Settings)
 	Elements.Visible = false
 	LoadingFrame.Visible = true
 
-	if not Settings.DisableRayfieldPrompts then
-		task.spawn(function()
-			while true do
-				task.wait(math.random(180, 600))
-				RayfieldLibrary:Notify({
-					Title = "Rayfield Interface",
-					Content = "Enjoying this UI library? Find it at sirius.menu/discord",
-					Duration = 7,
-					Image = 4370033185,
-				})
-			end
-		end)
-	end
+	--if not Settings.DisableRayfieldPrompts then
+	--	task.spawn(function()
+	--		while true do
+	--			task.wait(math.random(180, 600))
+	--			RayfieldLibrary:Notify({
+	--				Title = "Rayfield Interface",
+	--				Content = "Enjoying this UI library? Find it at sirius.menu/discord",
+	--				Duration = 7,
+	--				Image = 4370033185,
+	--			})
+	--		end
+	--	end)
+	--end
 
 	pcall(function()
 		if not Settings.ConfigurationSaving.FileName then
@@ -2049,7 +2049,6 @@ function RayfieldLibrary:CreateWindow(Settings)
 			TweenService:Create(Button.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {Transparency = 0}):Play()
 			TweenService:Create(Button.Title, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {TextTransparency = 0}):Play()	
 
-
 			Button.Interact.MouseButton1Click:Connect(function()
 				local Success, Response = pcall(ButtonSettings.Callback)
 				if not Success then
@@ -2094,6 +2093,15 @@ function RayfieldLibrary:CreateWindow(Settings)
 			end
 
 			return ButtonValue
+		end
+
+		function Tab:DeleteButton(Selected)
+			for _, child in ipairs(TabPage:GetChildren()) do
+				if child:IsA("Frame") and child.Name == Selected then
+					child:Destroy()
+					break
+				end
+			end
 		end
 
 		-- ColorPicker
@@ -2178,22 +2186,27 @@ function RayfieldLibrary:CreateWindow(Settings)
 					mainDragging = false
 					sliderDragging = false
 				end end)
+
 			Main.MouseButton1Down:Connect(function()
 				if opened then
 					mainDragging = true 
 				end
 			end)
+
 			Main.MainPoint.MouseButton1Down:Connect(function()
 				if opened then
 					mainDragging = true 
 				end
 			end)
+
 			Slider.MouseButton1Down:Connect(function()
 				sliderDragging = true 
 			end)
+
 			Slider.SliderPoint.MouseButton1Down:Connect(function()
 				sliderDragging = true 
 			end)
+
 			local h,s,v = ColorPickerSettings.Color:ToHSV()
 			local color = Color3.fromHSV(h,s,v) 
 			local hex = string.format("#%02X%02X%02X",color.R*0xFF,color.G*0xFF,color.B*0xFF)
@@ -2216,7 +2229,9 @@ function RayfieldLibrary:CreateWindow(Settings)
 				hex = string.format("#%02X%02X%02X",color.R*0xFF,color.G*0xFF,color.B*0xFF)
 				ColorPicker.HexInput.InputBox.Text = hex
 			end
+
 			setDisplay()
+
 			ColorPicker.HexInput.InputBox.FocusLost:Connect(function()
 				if not pcall(function()
 						local r, g, b = string.match(ColorPicker.HexInput.InputBox.Text, "^#?(%w%w)(%w%w)(%w%w)$")
